@@ -1,6 +1,6 @@
 import React from 'react';
 import styled, { createGlobalStyle } from "styled-components";
-import { useNavigate } from 'react-router-dom';
+import { Link } from "react-router-dom"
 
 const GlobalStyles = createGlobalStyle`
   * {
@@ -30,31 +30,40 @@ const ContentContainer = styled.div`
   align-items: center;
   justify-content: center;
   margin: 0 auto; /* 가운데 정렬을 위해 auto로 설정  */
-  background-image: url('/image/main.png');
+  background-image: url('/image/choice.png');
   background-size: contain;
   background-position: center;
   background-repeat: no-repeat;
   background-color: white;
-  cursor: pointer;
+  position: relative;
 `;
 
-const Main = () => {
-  const navigate = useNavigate();
+const CircleButton = styled(Link)`
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-image: url('/image/circlearrow.png');
+    background-size: cover;
+    background-position: center;
+    position: absolute;
+    bottom: 25px;
+    left: 430px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+`;
 
-  //페이지 이동 함수
-  const goToPage = () => {
-    navigate('/choice');
-  };
-
+const Choice = () => {
   return (
     <>
       <GlobalStyles />
       <PageContainer>
-        <ContentContainer onClick={goToPage}>
+        <ContentContainer>
+            <CircleButton to = "/rocket"></CircleButton>
         </ContentContainer>
       </PageContainer>
     </>
   );
 };
 
-export default Main;
+export default Choice;
