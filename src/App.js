@@ -4,6 +4,7 @@ import NotFound from './pages/NotFound';
 import Main from './pages/Main';
 import Rocket from './pages/Rocket';
 import Choice from './pages/Choice';
+import Ready from './pages/Ready';
 
 const App = () => {
   return (
@@ -12,6 +13,7 @@ const App = () => {
         <Route path='/' element={<Main />} />
         <Route path='/rocket' element={<Rocket />} />
         <Route path='/choice' element={<Choice />} />
+        <Route path='/ready' element={<Ready />} />
         <Route path='*' element={<NotFound />} />
       </Routes>
     </BrowserRouter>
