@@ -43,7 +43,7 @@ const Main = () => {
 
   //페이지 이동 함수
   const goToPage = () => {
-    navigate('/choice');
+    navigate('/main2');
   };
 
   return (
