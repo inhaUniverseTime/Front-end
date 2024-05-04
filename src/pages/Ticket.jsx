@@ -30,7 +30,7 @@ const ContentContainer = styled.div`
   align-items: center;
   justify-content: center;
   margin: 0 auto; /* 가운데 정렬을 위해 auto로 설정  */
-  background-image: url('/image/choice.png');
+  background-image: url('/image/ticketback.png');
   background-size: contain;
   background-position: center;
   background-repeat: no-repeat;
@@ -50,7 +50,6 @@ const CircleButton = styled(Link)`
     justify-content: center;
     bottom: 3vh; // 하단에서 10px 떨어진 곳에 위치
     right: 38vw;
-
     
     @media (max-width: 768px) {
         bottom: 2vh;
@@ -63,17 +62,40 @@ const CircleButton = styled(Link)`
     }
 `;
 
-const Choice = () => {
+const OptionBox = styled.div`
+  width: 14vw;
+  height: 34vh;
+  min-width: 240px; /* 최소 너비 */
+  max-width: 310px; /* 최대 너비를 px 단위로 설정 */
+  min-height: 200px; /* 최소 높이 */
+  max-height: 390px; /* 최대 높이를 px 단위로 설정 */
+  background-image: url('/image/optionbox.png');
+  background-size: cover;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 55%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+`;
+
+
+const Ticket = () => {
   return (
     <>
       <GlobalStyles />
       <PageContainer>
         <ContentContainer>
-            <CircleButton to = "/rocket"></CircleButton>
+            <OptionBox>
+              {/* OptionBox 내부 내용 */}
+              옵션 내용
+            </OptionBox>
+            <CircleButton to = "/"></CircleButton>
         </ContentContainer>
       </PageContainer>
     </>
   );
 };
 
-export default Choice;
+export default Ticket;
