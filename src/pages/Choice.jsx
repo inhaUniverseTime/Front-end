@@ -39,18 +39,28 @@ const ContentContainer = styled.div`
 `;
 
 const CircleButton = styled(Link)`
+    position: absolute;
     width: 30px;
     height: 30px;
     border-radius: 50%;
     background-image: url('/image/circlearrow.png');
     background-size: cover;
-    background-position: center;
-    position: absolute;
-    bottom: 25px;
-    left: 430px;
     display: flex;
     align-items: center;
     justify-content: center;
+    bottom: 3vh; // 하단에서 10px 떨어진 곳에 위치
+    right: 38vw;
+
+    
+    @media (max-width: 768px) {
+        bottom: 2vh;
+        right: 30vw;
+    }
+
+    @media (max-width: 480px) {
+        bottom: 1vh;
+        right: 10vw;
+    }
 `;
 
 const Choice = () => {
