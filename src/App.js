@@ -6,6 +6,7 @@ import Main2 from './pages/Main2';
 import Ticket from './pages/Ticket';
 import Rocket from './pages/Rocket';
 import Ready from './pages/Ready';
+import Result from './pages/Result';
 
 const App = () => {
   return (
@@ -16,6 +17,7 @@ const App = () => {
         <Route path='/Ticket' element={<Ticket />} />
         <Route path='/rocket' element={<Rocket />} />
         <Route path='/ready' element={<Ready />} />
+        <Route path='/result' element={<Result />} />
         <Route path='*' element={<NotFound />} />
       </Routes>
     </BrowserRouter>
