@@ -23,8 +23,8 @@ const PageContainer = styled.div`
 `;
 
 const ContentContainer = styled.div`
-  width: 393px;
-  height: 852px;
+  width: 90vw;
+  height: 80vh;
   display: flex;
   align-items: center;
   justify-content: center;
