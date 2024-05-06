@@ -1,6 +1,6 @@
 import React from 'react';
 import styled, { createGlobalStyle } from "styled-components";
-import { Link } from "react-router-dom"
+import { Link } from "react-router-dom";
 
 const GlobalStyles = createGlobalStyle`
   * {
@@ -20,7 +20,7 @@ const PageContainer = styled.div`
   justify-content: center;
   align-items: center;
   background-color: white;
-  height: 100vh; /* 화면 전체 높이로 설정  */
+  height: 100vh;
 `;
 
 const ContentContainer = styled.div`
@@ -29,7 +29,7 @@ const ContentContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 0 auto; /* 가운데 정렬을 위해 auto로 설정  */
+  margin: 0 auto;
   background-image: url('/image/ticketback.png');
   background-size: contain;
   background-position: center;
@@ -48,7 +48,7 @@ const CircleButton = styled(Link)`
     display: flex;
     align-items: center;
     justify-content: center;
-    bottom: 3vh; // 하단에서 10px 떨어진 곳에 위치
+    bottom: 3vh;
     right: 38vw;
     
     @media (max-width: 768px) {
@@ -65,21 +65,55 @@ const CircleButton = styled(Link)`
 const OptionBox = styled.div`
   width: 14vw;
   height: 34vh;
-  min-width: 240px; /* 최소 너비 */
-  max-width: 310px; /* 최대 너비를 px 단위로 설정 */
-  min-height: 200px; /* 최소 높이 */
-  max-height: 390px; /* 최대 높이를 px 단위로 설정 */
+  min-width: 240px;
+  max-width: 310px;
+  min-height: 200px;
+  max-height: 390px;
   background-image: url('/image/optionbox.png');
   background-size: cover;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  justify-content: space-around;
   align-items: center;
   position: absolute;
   top: 55%;
   left: 50%;
   transform: translate(-50%, -50%);
+  padding: 10px;
 `;
 
+const OptionItem = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+`;
+
+const TextBox = styled.div`
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 30px; /* 여기를 수정하여 간격을 줄임 */
+`;
+
+const Dropdown = styled.select`
+  padding: 5px 5px;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+  margin-top: -30px; /* 여기를 수정하여 간격을 줄임 */
+  color: #3CA2FF;
+  line-height: 1;
+  margin-left: 20px;
+  background-color: transparent;
+`;
+
+// 드롭다운 옵션 정의
+const dropdownOptions = {
+  출발: ["서울", "대전", "대구", "부산"],
+  도착: ["서울", "대전", "대구", "부산"],
+  인원: ["1명", "2명", "3명", "4명"],
+  공강: ["오전", "오후", "저녁", "없음"]
+};
 
 const Ticket = () => {
   return (
@@ -87,11 +121,19 @@ const Ticket = () => {
       <GlobalStyles />
       <PageContainer>
         <ContentContainer>
-            <OptionBox>
-              {/* OptionBox 내부 내용 */}
-              옵션 내용
-            </OptionBox>
-            <CircleButton to = "/"></CircleButton>
+          <OptionBox>
+            {Object.entries(dropdownOptions).map(([key, values]) => (
+              <OptionItem key={key}>
+                <TextBox>{key}</TextBox>
+                <Dropdown>
+                  {values.map((value) => (
+                    <option key={value} value={value}>{value}</option>
+                  ))}
+                </Dropdown>
+              </OptionItem>
+            ))}
+          </OptionBox>
+          <CircleButton to="/"></CircleButton>
         </ContentContainer>
       </PageContainer>
     </>
