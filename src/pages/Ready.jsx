@@ -43,7 +43,7 @@ const Ready = () => {
 
   //페이지 이동 함수
   const goToPage = () => {
-    navigate('/final');
+    navigate('/rocket');
   };
 
   return (

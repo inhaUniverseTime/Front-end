@@ -133,7 +133,7 @@ const Ticket = () => {
               </OptionItem>
             ))}
           </OptionBox>
-          <CircleButton to="/"></CircleButton>
+          <CircleButton to="/select1"></CircleButton>
         </ContentContainer>
       </PageContainer>
     </>

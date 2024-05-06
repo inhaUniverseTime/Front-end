@@ -42,15 +42,15 @@ const ContentContainer = styled.div`
 const StyledSquareButton = styled.div`
   width: 100px;
   height: 100px;
-  background-color: ${({ isActive }) => (isActive ? '#3CA2FF' : 'rgba(255, 255, 255, 0.1)')};
-  border: ${({ isActive }) => (isActive ? '2px solid #FFFFFF' : 'none')};
+  background-color: ${({ selected }) => (selected ? '#3CA2FF' : 'rgba(255, 255, 255, 0.1)')};
+  border: ${({ selected }) => (selected ? '2px solid #FFFFFF' : 'none')};
   cursor: pointer;
   position: relative;
   text-align: center; /* 텍스트를 가로로 가운데 정렬 */
   
   > div {
     font-size: 30px;
-    font-weight: 500; /* 세미 볼드(미디엄) */
+    font-weight: 600; /* 세미 볼드(미디엄) */
     color: white;
     position: absolute;
     top: 50%;
@@ -60,8 +60,6 @@ const StyledSquareButton = styled.div`
     white-space: nowrap; /* 텍스트가 너비를 벗어나더라도 줄 바꿈 방지 */
   }
 `;
-
-
 
 const CircleButton = styled(Link)`
     position: absolute;
@@ -98,14 +96,17 @@ const TopRow = styled(Row)`
   margin-bottom: 32px;
 `;
 
-const Choice = () => {
-  const [isActive, setIsActive] = useState([false, false, false, false]); // 사각형 활성화 여부 상태 관리
+const Select1 = () => {
+  const [selectedIdx, setSelectedIdx] = useState(null); // 선택된 사각형의 인덱스 상태 관리
 
-  // 사각형 클릭 시 해당 인덱스의 isActive 상태 변경
+  // 사각형 클릭 시 선택된 사각형의 인덱스를 저장하고 이전에 선택된 사각형을 비활성화
   const handleClick = (index) => {
-    const updatedActive = [...isActive];
-    updatedActive[index] = !updatedActive[index];
-    setIsActive(updatedActive);
+    if (selectedIdx === index) {
+      // 이미 선택된 사각형을 다시 클릭한 경우
+      setSelectedIdx(null); // 선택 취소
+    } else {
+      setSelectedIdx(index); // 새로운 사각형 선택
+    }
   };
 
   return (
@@ -115,28 +116,27 @@ const Choice = () => {
         <ContentContainer>
           <TopRow>
             {/* 첫 번째 행 */}
-            <StyledSquareButton onClick={() => handleClick(0)} isActive={isActive[0]} style={{ top: '25px' }}>
+            <StyledSquareButton onClick={() => handleClick(0)} selected={selectedIdx === 0} style={{ top: '25px' }}>
               <div>공부</div>
-     
             </StyledSquareButton>
-            <StyledSquareButton onClick={() => handleClick(1)} isActive={isActive[1]} style={{ top: '25px' }}>
+            <StyledSquareButton onClick={() => handleClick(1)} selected={selectedIdx === 1} style={{ top: '25px' }}>
               <div>쉴래</div>
             </StyledSquareButton>
           </TopRow>
           <Row>
             {/* 두 번째 행 */}
-            <StyledSquareButton onClick={() => handleClick(2)} isActive={isActive[2]}>
+            <StyledSquareButton onClick={() => handleClick(2)} selected={selectedIdx === 2}>
               <div>배고파</div>
             </StyledSquareButton>
-            <StyledSquareButton onClick={() => handleClick(3)} isActive={isActive[3]}>
+            <StyledSquareButton onClick={() => handleClick(3)} selected={selectedIdx === 3}>
               <div>놀래</div>
             </StyledSquareButton>
           </Row>
-          <CircleButton to="/rocket" />
+          <CircleButton to="/select2" />
         </ContentContainer>
       </PageContainer>
     </>
   );
 };
 
-export default Choice;
+export default Select1;
