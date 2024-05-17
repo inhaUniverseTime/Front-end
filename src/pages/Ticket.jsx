@@ -1,12 +1,16 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled, { createGlobalStyle } from "styled-components";
 import { Link } from "react-router-dom";
+import axios from 'axios';
 
 const GlobalStyles = createGlobalStyle`
+  @import url('https://fonts.googleapis.com/css2?family=Pretendard:wght@400;700&display=swap');
+
   * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    font-family: 'Pretendard', sans-serif;
   }
   
   body {
@@ -64,12 +68,12 @@ const CircleButton = styled(Link)`
 
 const OptionBox = styled.div`
   width: 14vw;
-  height: 34vh;
+  height: 30vh; /* 줄 간격 조정 */
   min-width: 240px;
   max-width: 310px;
-  min-height: 200px;
-  max-height: 390px;
-  background-image: url('/image/optionbox.png');
+  min-height: 180px;
+  max-height: 270px;
+  background-color: #ffffff; /* 하얀색 배경 설정 */
   background-size: cover;
   display: flex;
   flex-direction: column;
@@ -87,35 +91,54 @@ const OptionItem = styled.div`
   justify-content: space-between;
   align-items: center;
   width: 100%;
+  margin-bottom: 5px; /* 줄 간격 더욱 좁힘 */
 `;
 
 const TextBox = styled.div`
-  font-size: 18px;
+  font-size: 15px;
   font-weight: bold;
-  margin-bottom: 30px; /* 여기를 수정하여 간격을 줄임 */
+  color: #000; /* 검정색 */
 `;
 
 const Dropdown = styled.select`
-  padding: 5px 5px;
+  padding: 0px;
   border-radius: 5px;
   border: none;
   cursor: pointer;
-  margin-top: -30px; /* 여기를 수정하여 간격을 줄임 */
-  color: #3CA2FF;
+  width: 150px;
+  color: #3CA2FF; /* 파란색 */
   line-height: 1;
-  margin-left: 20px;
   background-color: transparent;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  text-align: right; /* 오른쪽 정렬 */
+  font-size: 18px; /* 폰트 크기 */
 `;
 
-// 드롭다운 옵션 정의
-const dropdownOptions = {
-  출발: ["서울", "대전", "대구", "부산"],
-  도착: ["서울", "대전", "대구", "부산"],
-  인원: ["1명", "2명", "3명", "4명"],
-  공강: ["오전", "오후", "저녁", "없음"]
-};
-
 const Ticket = () => {
+  const defaultOptions = {
+    출발: ["5호관", "60주년 기념관", "비룡플라자", "9호관"],
+    도착: ["9호관", "6호관", "5호관", "60주년 기념관"],
+    인원: ["1명", "2명", "3명", "4명"],
+    공강: ["1시간", "2시간", "3시간 이상"]
+  };
+
+  const [dropdownOptions, setDropdownOptions] = useState(defaultOptions);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get('/api/endpoint'); // 여기에 실제 API 엔드포인트를 입력하세요.
+        setDropdownOptions(response.data);
+      } catch (error) {
+        console.error("Error fetching data, using default options", error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
   return (
     <>
       <GlobalStyles />

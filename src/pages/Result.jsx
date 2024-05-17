@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled, { createGlobalStyle } from "styled-components";
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios'; // axios 라이브러리 추가
 
 const GlobalStyles = createGlobalStyle`
   * {
@@ -25,7 +26,7 @@ const PageContainer = styled.div`
 
 const ContentContainer = styled.div`
   width: 90vw;
-  height: auto; /* 높이 설정을 auto로 변경하여 컨텐츠에 맞게 조절 */
+  height: auto;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -37,121 +38,147 @@ const ContentContainer = styled.div`
   background-repeat: no-repeat;
   background-color: white;
   cursor: pointer;
-  padding: 20px; /* 내부 여백 추가 */
+  padding: 20px;
 `;
 
 const ContentBox = styled.div`
-  width: 240px; /* 필요에 따라 조절 */
-  height: 340px; /* 필요에 따라 조절 */
+  width: 240px;
+  height: 340px;
   background-color: #ffffff;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  padding: 20px; /* 내부 여백을 늘림 */
+  padding: 20px;
   margin-top: 10px;
-  overflow: auto; /* 내용이 넘치면 스크롤바 생성 */
+  overflow: auto;
   h2 {
     color: black;
-    font-size: 30px; /* 텍스트 크기를 줄임 */
+    font-size: 30px;
   }
   p {
     color: #3CA2FF;
-    font-size: 20px; /* 텍스트 크기를 줄임 */
+    font-size: 20px;
+    white-space: pre-wrap; /* 줄 바꿈을 위한 설정 */
+    word-wrap: break-word; /* 긴 단어의 줄 바꿈을 허용 */
   }
-    /* 스크롤바 숨기기 */
-    &::-webkit-scrollbar {
-    display: none; /* Webkit 브라우저용 */
+  &::-webkit-scrollbar {
+    display: none;
   }
-
-  -ms-overflow-style: none; /* IE, Edge 브라우저용 */
-  scrollbar-width: none; /* Firefox 브라우저용 */
-`;
-
-const TextComponent = styled.div`
-  font-size: 20px; /* 폰트 크기 수정 */
-  color: white;
-  margin-top: 5px;
-  margin-bottom: 10px;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 `;
 
 const InfoTextComponent = styled.div`
-  display: flex; /* flexbox 레이아웃 사용 */
-  justify-content: center; /* 중앙 정렬 */
-  align-items: center; /* 중앙 정렬 */
+  display: flex;
+  flex-direction: row; /* 라벨과 값이 같은 라인에 표시되도록 설정합니다. */
+  align-items: flex-start; /* 자식 요소들을 시작 위치로 정렬합니다. */
   margin-top: 5px;
   margin-bottom: 10px;
-  padding: 5px; /* 내부 여백 */
-  border-radius: 5px; /* 둥근 테두리 */
+  padding: 5px;
+  border-radius: 5px;
 `;
 
 const InfoLabel = styled.span`
-  font-size: 15px; /* 폰트 크기 */
-  color: #B6DCFF; /* 텍스트 색상 */
-  margin-right: 5px; /* 라벨과 값 사이 간격 */
+  font-size: 16px;
+  color: #FFEE59;
+  margin-right: 5px;
+  display: flex; /* 수평 정렬을 위해 추가합니다. */
+  align-items: flex-start; /* 시작 위치로 정렬하도록 설정합니다. */
 `;
 
-const InfoValue = styled.span`
-  font-size: 15px; /* 폰트 크기 */
-  color: white; /* 텍스트 색상 */
+const InfoValue = styled.div`
+  font-size: 16px;
+  color: white;
+  word-wrap: break-word;
+  max-width: 200px; // 더 적합한 너비로 조정해보세요
+  white-space: pre-wrap; /* 텍스트 줄 바꿈을 위해 추가 */
 `;
 
 const ButtonContainer = styled.div`
   display: flex;
-  flex-direction: column; /* 수정된 부분 */
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   margin-top: 10px;
-  gap: 10px; /* 버튼 사이의 간격을 조정하기 위해 추가 */
+  gap: 10px;
 `;
 
 const Button = styled.button`
   padding: 10px 50px;
-  width: 230px; /* 너비 설정 */
+  width: 230px;
   background-color: white;
   font-weight: bold;
   color: black;
   border: none;
-  border-radius: 20px; /* 더 둥글게 */
+  border-radius: 20px;
   cursor: pointer;
 `;
 
+
 const Result = () => {
-    const navigate = useNavigate();
-  
-    // 페이지 이동 함수
-    const goToPage = (path) => {
-      navigate(path);
-    };
-  
-    return (
-      <>
-        <GlobalStyles />
-        <PageContainer>
-          <ContentContainer>
-            {/* ContentBox */}
+  const navigate = useNavigate();
+  const [contentData, setContentData] = useState(null); // 백엔드에서 받아온 컨텐츠 데이터 상태
+  const [activityDescription, setActivityDescription] = useState(""); // 백엔드에서 받아온 활동 설명 상태
+
+  useEffect(() => {
+    // 백엔드 API에서 데이터 가져오기
+    axios.get('/api/content')
+      .then(response => {
+        setContentData(response.data); // 데이터 상태 업데이트
+        setActivityDescription(response.data.activityDescription); // 활동 설명 상태 업데이트
+      })
+      .catch(error => {
+        // API 요청이 실패할 경우 기본값 설정
+        const defaultData = {
+          title: "떡볶이 드세요 그냥",
+          image: "/image/test.jpg",
+          description: "떡볶이 맛집이 많은데 그냥 엽떡 드세요 마라로제로다가",
+          location: "인하대학교 후문",
+          time: "50분",
+          activityDescription: "밥을 먹은 당신!"
+        };
+        setContentData(defaultData); // 기본값으로 데이터 상태 업데이트
+        setActivityDescription(defaultData.activityDescription); // 활동 설명 상태 업데이트
+      });
+  }, []);
+
+  // 페이지 이동 함수
+  const goToPage = (path) => {
+    navigate(path);
+  };
+
+  return (
+    <>
+      <GlobalStyles />
+      <PageContainer>
+        <ContentContainer>
+          {contentData && (
             <ContentBox>
-              <h2>떡볶이 드세요 그냥</h2>
-              <img src="/image/test.jpg" alt="Photo" style={{ width: "100%", maxHeight: "250px", objectFit: "cover", marginBottom: "20px" }} />
-              <p>떡볶이 맛집이 많은데 그냥 엽떡 드세요 마라로제로다가</p>
+              <h2>{contentData.title}</h2>
+              <img src={contentData.image} alt="Photo" style={{ width: "100%", maxHeight: "250px", objectFit: "cover", marginBottom: "20px" }} />
+              <p>{contentData.description}</p>
             </ContentBox>
-            {/* TextComponent */}
-            <TextComponent>#해시태그</TextComponent>
-            <InfoTextComponent>
-              <InfoLabel>위치:</InfoLabel><InfoValue>서울</InfoValue>
-            </InfoTextComponent>
-            <InfoTextComponent>
-              <InfoLabel>시간:</InfoLabel><InfoValue>오후 3시</InfoValue>
-            </InfoTextComponent>
-            {/* ButtonContainer */}
-            <ButtonContainer>
-              <Button onClickx={() => goToPage('/main')}>다른 선택지는 없어?</Button>
-              <Button onClick={() => goToPage('/main2')}>정보를 다시 입력할래!</Button>
-            </ButtonContainer>
-          </ContentContainer>
-        </PageContainer>
-      </>
-    );
+          )}
+          <InfoTextComponent>
+            <InfoLabel>위치:</InfoLabel><InfoValue>{contentData && contentData.location}</InfoValue>
+          </InfoTextComponent>
+          <InfoTextComponent>
+            <InfoLabel>시간:</InfoLabel>
+            <InfoValue>
+              {contentData && activityDescription && <span>{activityDescription}<br /></span>}
+              {contentData ? <span>수업 시작까지 {contentData.time} 남았어요.<br /></span> : "데이터를 불러오는 중입니다."}
+            </InfoValue>
+          </InfoTextComponent>
+          {/* ButtonContainer */}
+          <ButtonContainer>
+            <Button onClick={() => goToPage('/main')}>{contentData ? `남은 ${contentData.time} 뭐하지?` : "남은 50분 뭐하지?"}</Button>
+            <Button onClick={() => goToPage('/main2')}>다시 할래!</Button>
+          </ButtonContainer>
+        </ContentContainer>
+      </PageContainer>
+    </>
+  );
 };
 
 export default Result;
