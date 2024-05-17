@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import styled, { createGlobalStyle } from "styled-components";
 import { Link } from "react-router-dom";
+import axios from 'axios';
 
 const GlobalStyles = createGlobalStyle`
   * {
@@ -73,7 +74,6 @@ const CircleButton = styled(Link)`
     justify-content: center;
     bottom: 3vh; // 하단에서 10px 떨어진 곳에 위치
     right: 38vw;
-
     
     @media (max-width: 768px) {
         bottom: 2vh;
@@ -85,7 +85,6 @@ const CircleButton = styled(Link)`
         right: 10vw;
     }
 `;
-
 
 const Row = styled.div`
   display: flex;
@@ -99,6 +98,8 @@ const TopRow = styled(Row)`
 const Select1 = () => {
   const [selectedIdx, setSelectedIdx] = useState(null); // 선택된 사각형의 인덱스 상태 관리
 
+  const options = ["공부", "쉴래", "배고파", "놀래"]; // 선택 옵션 배열
+
   // 사각형 클릭 시 선택된 사각형의 인덱스를 저장하고 이전에 선택된 사각형을 비활성화
   const handleClick = (index) => {
     if (selectedIdx === index) {
@@ -106,6 +107,21 @@ const Select1 = () => {
       setSelectedIdx(null); // 선택 취소
     } else {
       setSelectedIdx(index); // 새로운 사각형 선택
+    }
+  };
+
+  // 선택된 값을 백엔드로 전송하는 함수
+  const handleSubmit = async () => {
+    if (selectedIdx !== null) {
+      const selectedOption = options[selectedIdx];
+      try {
+        const response = await axios.post('/api/endpoint', { selectedOption }); // 여기에 실제 API 엔드포인트를 입력하세요.
+        console.log('Data sent successfully:', response.data);
+      } catch (error) {
+        console.error('Error sending data:', error);
+      }
+    } else {
+      console.error('No option selected');
     }
   };
 
@@ -132,7 +148,7 @@ const Select1 = () => {
               <div>놀래</div>
             </StyledSquareButton>
           </Row>
-          <CircleButton to="/select2" />
+          <CircleButton to="/select2" onClick={handleSubmit} />
         </ContentContainer>
       </PageContainer>
     </>

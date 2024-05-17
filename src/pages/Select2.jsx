@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import styled, { createGlobalStyle } from "styled-components";
 import { Link } from "react-router-dom";
+import axios from 'axios'; // axios import 추가
 
 const GlobalStyles = createGlobalStyle`
   * {
@@ -73,7 +74,6 @@ const CircleButton = styled(Link)`
     justify-content: center;
     bottom: 3vh; // 하단에서 10px 떨어진 곳에 위치
     right: 38vw;
-
     
     @media (max-width: 768px) {
         bottom: 2vh;
@@ -109,6 +109,23 @@ const Select2 = () => {
     }
   };
 
+  // 선택된 값을 백엔드로 전송하는 함수
+  const handleSubmit = async () => {
+    if (selectedIdx !== null) {
+      const options = ["한식", "중식", "양식", "일식"]; // 선택 옵션 배열
+      const selectedOption = options[selectedIdx]; // 선택된 옵션
+
+      try {
+        const response = await axios.post('/api/endpoint', { selectedOption }); // 실제 API 엔드포인트로 보내기
+        console.log('Data sent successfully:', response.data);
+      } catch (error) {
+        console.error('Error sending data:', error);
+      }
+    } else {
+      console.error('No option selected');
+    }
+  };
+
   return (
     <>
       <GlobalStyles />
@@ -132,7 +149,7 @@ const Select2 = () => {
               <div>일식</div>
             </StyledSquareButton>
           </Row>
-          <CircleButton to="/ready" />
+          <CircleButton to="/ready" onClick={handleSubmit} />
         </ContentContainer>
       </PageContainer>
     </>
