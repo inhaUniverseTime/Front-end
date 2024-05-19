@@ -41,8 +41,8 @@ const ContentContainer = styled.div`
 `;
 
 const StyledSquareButton = styled.div`
-  width: 100px;
-  height: 100px;
+  width: 110px;
+  height: 110px;
   background-color: ${({ selected }) => (selected ? '#3CA2FF' : 'rgba(255, 255, 255, 0.1)')};
   border: ${({ selected }) => (selected ? '2px solid #FFFFFF' : 'none')};
   cursor: pointer;
@@ -50,7 +50,7 @@ const StyledSquareButton = styled.div`
   text-align: center; /* 텍스트를 가로로 가운데 정렬 */
   
   > div {
-    font-size: 30px;
+    font-size: 28px;
     font-weight: 600; /* 세미 볼드(미디엄) */
     color: white;
     position: absolute;

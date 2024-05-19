@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import styled, { createGlobalStyle } from "styled-components";
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios'; // axios 라이브러리 추가
+import axios from 'axios';
 
 const GlobalStyles = createGlobalStyle`
   * {
@@ -12,6 +12,7 @@ const GlobalStyles = createGlobalStyle`
   
   body {
     background-color: #d9d9d9;
+    font-weight: bold;
   }
 `;
 
@@ -55,12 +56,14 @@ const ContentBox = styled.div`
   h2 {
     color: black;
     font-size: 30px;
+    font-weight: bold;
   }
   p {
     color: #3CA2FF;
     font-size: 20px;
-    white-space: pre-wrap; /* 줄 바꿈을 위한 설정 */
-    word-wrap: break-word; /* 긴 단어의 줄 바꿈을 허용 */
+    font-weight: bold;
+    white-space: pre-wrap;
+    word-wrap: break-word;
   }
   &::-webkit-scrollbar {
     display: none;
@@ -69,12 +72,22 @@ const ContentBox = styled.div`
   scrollbar-width: none;
 `;
 
+const InfoContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  width: 240px;
+  margin-top: 10px;
+`;
+
 const InfoTextComponent = styled.div`
   display: flex;
-  flex-direction: row; /* 라벨과 값이 같은 라인에 표시되도록 설정합니다. */
-  align-items: flex-start; /* 자식 요소들을 시작 위치로 정렬합니다. */
+  flex-direction: row; 
+  align-items: flex-start; 
+  justify-content: flex-start; 
   margin-top: 5px;
-  margin-bottom: 10px;
+  margin-bottom: 5px; /* 간격을 줄이기 위해 margin-bottom 조정 */
   padding: 5px;
   border-radius: 5px;
 `;
@@ -83,16 +96,21 @@ const InfoLabel = styled.span`
   font-size: 16px;
   color: #FFEE59;
   margin-right: 5px;
-  display: flex; /* 수평 정렬을 위해 추가합니다. */
-  align-items: flex-start; /* 시작 위치로 정렬하도록 설정합니다. */
+  display: flex; 
+  align-items: flex-start; 
+  font-weight: bold;
 `;
 
 const InfoValue = styled.div`
   font-size: 16px;
   color: white;
   word-wrap: break-word;
-  max-width: 200px; // 더 적합한 너비로 조정해보세요
-  white-space: pre-wrap; /* 텍스트 줄 바꿈을 위해 추가 */
+  max-width: 200px;
+  white-space: pre-wrap;
+  text-align: left;
+  span {
+    font-weight: normal;
+  }
 `;
 
 const ButtonContainer = styled.div`
@@ -113,37 +131,34 @@ const Button = styled.button`
   border: none;
   border-radius: 20px;
   cursor: pointer;
+  font-weight: bold;
 `;
-
 
 const Result = () => {
   const navigate = useNavigate();
-  const [contentData, setContentData] = useState(null); // 백엔드에서 받아온 컨텐츠 데이터 상태
-  const [activityDescription, setActivityDescription] = useState(""); // 백엔드에서 받아온 활동 설명 상태
+  const [contentData, setContentData] = useState(null);
+  const [activityDescription, setActivityDescription] = useState("");
 
   useEffect(() => {
-    // 백엔드 API에서 데이터 가져오기
     axios.get('/api/content')
       .then(response => {
-        setContentData(response.data); // 데이터 상태 업데이트
-        setActivityDescription(response.data.activityDescription); // 활동 설명 상태 업데이트
+        setContentData(response.data);
+        setActivityDescription(response.data.activityDescription);
       })
       .catch(error => {
-        // API 요청이 실패할 경우 기본값 설정
         const defaultData = {
-          title: "떡볶이 드세요 그냥",
+          title: "우주공강타임",
           image: "/image/test.jpg",
-          description: "떡볶이 맛집이 많은데 그냥 엽떡 드세요 마라로제로다가",
+          description: "동대문 엽기떡볶이",
           location: "인하대학교 후문",
           time: "50분",
           activityDescription: "밥을 먹은 당신!"
         };
-        setContentData(defaultData); // 기본값으로 데이터 상태 업데이트
-        setActivityDescription(defaultData.activityDescription); // 활동 설명 상태 업데이트
+        setContentData(defaultData);
+        setActivityDescription(defaultData.activityDescription);
       });
   }, []);
 
-  // 페이지 이동 함수
   const goToPage = (path) => {
     navigate(path);
   };
@@ -153,24 +168,30 @@ const Result = () => {
       <GlobalStyles />
       <PageContainer>
         <ContentContainer>
-          {contentData && (
-            <ContentBox>
-              <h2>{contentData.title}</h2>
-              <img src={contentData.image} alt="Photo" style={{ width: "100%", maxHeight: "250px", objectFit: "cover", marginBottom: "20px" }} />
-              <p>{contentData.description}</p>
-            </ContentBox>
+          {contentData ? (
+            <>
+              <ContentBox>
+                <h2>{contentData.title}</h2>
+                <img src={contentData.image} alt="Photo" style={{ width: "100%", height: "200px", objectFit: "cover", marginBottom: "20px" }} />
+                <p>{contentData.description}</p>
+              </ContentBox>
+              <InfoContainer>
+                <InfoTextComponent>
+                  <InfoLabel>위치:</InfoLabel>
+                  <InfoValue><span>{contentData.location}</span></InfoValue>
+                </InfoTextComponent>
+                <InfoTextComponent>
+                  <InfoLabel>시간:</InfoLabel>
+                  <InfoValue>
+                    {activityDescription && <span>{activityDescription}<br /></span>}
+                    <span>수업 시작까지 {contentData.time} 남았어요.<br /></span>
+                  </InfoValue>
+                </InfoTextComponent>
+              </InfoContainer>
+            </>
+          ) : (
+            <p>데이터를 불러오는 중입니다...</p>
           )}
-          <InfoTextComponent>
-            <InfoLabel>위치:</InfoLabel><InfoValue>{contentData && contentData.location}</InfoValue>
-          </InfoTextComponent>
-          <InfoTextComponent>
-            <InfoLabel>시간:</InfoLabel>
-            <InfoValue>
-              {contentData && activityDescription && <span>{activityDescription}<br /></span>}
-              {contentData ? <span>수업 시작까지 {contentData.time} 남았어요.<br /></span> : "데이터를 불러오는 중입니다."}
-            </InfoValue>
-          </InfoTextComponent>
-          {/* ButtonContainer */}
           <ButtonContainer>
             <Button onClick={() => goToPage('/main')}>{contentData ? `남은 ${contentData.time} 뭐하지?` : "남은 50분 뭐하지?"}</Button>
             <Button onClick={() => goToPage('/main2')}>다시 할래!</Button>

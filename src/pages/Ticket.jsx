@@ -95,7 +95,7 @@ const OptionItem = styled.div`
 `;
 
 const TextBox = styled.div`
-  font-size: 15px;
+  font-size: 16px;
   font-weight: bold;
   color: #000; /* 검정색 */
 `;
@@ -113,7 +113,8 @@ const Dropdown = styled.select`
   overflow: hidden;
   white-space: nowrap;
   text-align: right; /* 오른쪽 정렬 */
-  font-size: 18px; /* 폰트 크기 */
+  font-size: 16px; /* 폰트 크기 */
+  font-weight: bold;
 `;
 
 const Ticket = () => {
