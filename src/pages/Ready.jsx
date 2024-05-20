@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled, { createGlobalStyle } from "styled-components";
 import { useNavigate } from 'react-router-dom';
 
@@ -41,16 +41,21 @@ const ContentContainer = styled.div`
 const Ready = () => {
   const navigate = useNavigate();
 
-  //페이지 이동 함수
-  const goToPage = () => {
-    navigate('/rocket');
-  };
+  // 3초 뒤에 페이지 이동 함수
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      navigate('/rocket');
+    }, 3000); // 3초 (3000 밀리초)
+
+    // 컴포넌트가 언마운트될 때 타이머를 정리
+    return () => clearTimeout(timer);
+  }, [navigate]);
 
   return (
     <>
       <GlobalStyles />
       <PageContainer>
-        <ContentContainer onClick={goToPage}>
+        <ContentContainer>
         </ContentContainer>
       </PageContainer>
     </>
