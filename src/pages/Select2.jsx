@@ -48,7 +48,7 @@ const StyledSquareButton = styled.div`
   cursor: pointer;
   position: relative;
   text-align: center; /* 텍스트를 가로로 가운데 정렬 */
-  
+
   > div {
     font-size: 28px;
     font-weight: 600; /* 세미 볼드(미디엄) */
@@ -60,8 +60,28 @@ const StyledSquareButton = styled.div`
     display: inline-block; /* 추가 */
     white-space: nowrap; /* 텍스트가 너비를 벗어나더라도 줄 바꿈 방지 */
   }
-`;
 
+  /* 반응형 유지 - 부모 요소의 크기에 맞춰 배치 조정 */
+  @media (max-width: 1200px) {
+    width: 110px;
+    height: 110px;
+  }
+
+  @media (max-width: 992px) {
+    width: 100px;
+    height: 100px;
+  }
+
+  @media (max-width: 768px) {
+    width: 90px;
+    height: 90px;
+  }
+
+  @media (max-width: 576px) {
+    width: 90px;
+    height: 90px;
+  }
+`;
 const CircleButton = styled(Link)`
     position: absolute;
     width: 30px;

@@ -9,6 +9,7 @@ import Select2 from './pages/Select2';
 import Ticket from './pages/Ticket';
 import Rocket from './pages/Rocket';
 import Ready from './pages/Ready';
+import Time from './pages/Time';
 import Result from './pages/Result';
 
 // 글로벌 스타일 정의
@@ -39,6 +40,7 @@ const App = () => {
         <Route path='/select2' element={<Select2 />} />
         <Route path='/rocket' element={<Rocket />} />
         <Route path='/ready' element={<Ready />} />
+        <Route path='/time' element={<Time />} />
         <Route path='/result' element={<Result />} />
         <Route path='*' element={<NotFound />} />
       </Routes>

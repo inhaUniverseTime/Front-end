@@ -193,8 +193,8 @@ const Result = () => {
             <p>데이터를 불러오는 중입니다...</p>
           )}
           <ButtonContainer>
-            <Button onClick={() => goToPage('/main')}>{contentData ? `남은 ${contentData.time} 뭐하지?` : "남은 50분 뭐하지?"}</Button>
-            <Button onClick={() => goToPage('/main2')}>다시 할래!</Button>
+            <Button onClick={() => goToPage('/time')}>{contentData ? `남은 ${contentData.time} 뭐하지?` : "남은 50분 뭐하지?"}</Button>
+            <Button onClick={() => goToPage('/ticket')}>다시 할래!</Button>
           </ButtonContainer>
         </ContentContainer>
       </PageContainer>
