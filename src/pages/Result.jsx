@@ -60,7 +60,7 @@ const ContentBox = styled.div`
   }
   p {
     color: #3CA2FF;
-    font-size: 20px;
+    font-size: 26px; /* Increase font size more */
     font-weight: bold;
     white-space: pre-wrap;
     word-wrap: break-word;
@@ -77,8 +77,9 @@ const InfoContainer = styled.div`
   flex-direction: column;
   align-items: flex-start;
   justify-content: center;
-  width: 240px;
+  width: 260px; /* Increase width to accommodate margin */
   margin-top: 10px;
+  margin-left: 20px; /* Add margin to push content to the right */
 `;
 
 const InfoTextComponent = styled.div`
@@ -86,14 +87,12 @@ const InfoTextComponent = styled.div`
   flex-direction: row; 
   align-items: flex-start; 
   justify-content: flex-start; 
-  margin-top: 5px;
-  margin-bottom: 5px; /* 간격을 줄이기 위해 margin-bottom 조정 */
-  padding: 5px;
-  border-radius: 5px;
+  margin-bottom: 2px; /* 간격을 줄이기 위해 margin-bottom 조정 */
+  padding: 10px;
 `;
 
 const InfoLabel = styled.span`
-  font-size: 16px;
+  font-size: 14px;
   color: #FFEE59;
   margin-right: 5px;
   display: flex; 
@@ -102,7 +101,7 @@ const InfoLabel = styled.span`
 `;
 
 const InfoValue = styled.div`
-  font-size: 16px;
+  font-size: 14px;
   color: white;
   word-wrap: break-word;
   max-width: 200px;
@@ -110,6 +109,9 @@ const InfoValue = styled.div`
   text-align: left;
   span {
     font-weight: normal;
+  }
+  .bold-text {
+    font-weight: bold;
   }
 `;
 
@@ -138,12 +140,18 @@ const Result = () => {
   const navigate = useNavigate();
   const [contentData, setContentData] = useState(null);
   const [activityDescription, setActivityDescription] = useState("");
+  const [hour, setHour] = useState(null);
+  const [minute, setMinute] = useState(null);
 
   useEffect(() => {
     axios.get('/api/content')
       .then(response => {
         setContentData(response.data);
         setActivityDescription(response.data.activityDescription);
+        // Splitting time into hour and minute
+        const [hour, minute] = response.data.time.split(':');
+        setHour(hour);
+        setMinute(minute);
       })
       .catch(error => {
         const defaultData = {
@@ -151,11 +159,14 @@ const Result = () => {
           image: "/image/test.jpg",
           description: "동대문 엽기떡볶이",
           location: "인하대학교 후문",
-          time: "50분",
-          activityDescription: "밥을 먹은 당신!"
+          time: "01:15",
         };
         setContentData(defaultData);
         setActivityDescription(defaultData.activityDescription);
+        // Splitting time into hour and minute
+        const [hour, minute] = defaultData.time.split(':');
+        setHour(hour);
+        setMinute(minute);
       });
   }, []);
 
@@ -173,18 +184,18 @@ const Result = () => {
               <ContentBox>
                 <h2>{contentData.title}</h2>
                 <img src={contentData.image} alt="Photo" style={{ width: "100%", height: "200px", objectFit: "cover", marginBottom: "20px" }} />
-                <p>{contentData.description}</p>
+                <p className="description-text">{contentData.description}</p>
               </ContentBox>
               <InfoContainer>
                 <InfoTextComponent>
                   <InfoLabel>위치:</InfoLabel>
-                  <InfoValue><span>{contentData.location}</span></InfoValue>
+                  <InfoValue><span className="bold-text">{contentData.location}</span></InfoValue>
                 </InfoTextComponent>
                 <InfoTextComponent>
                   <InfoLabel>시간:</InfoLabel>
                   <InfoValue>
                     {activityDescription && <span>{activityDescription}<br /></span>}
-                    <span>수업 시작까지 {contentData.time} 남았어요.<br /></span>
+                    <span className="bold-text"> 강의실 {hour}시 {minute}분에 이동!<br /></span>
                   </InfoValue>
                 </InfoTextComponent>
               </InfoContainer>
@@ -193,8 +204,8 @@ const Result = () => {
             <p>데이터를 불러오는 중입니다...</p>
           )}
           <ButtonContainer>
-            <Button onClick={() => goToPage('/time')}>{contentData ? `남은 ${contentData.time} 뭐하지?` : "남은 50분 뭐하지?"}</Button>
-            <Button onClick={() => goToPage('/ticket')}>다시 할래!</Button>
+            <Button onClick={() => goToPage('/time')}>그래도 시간이 붕뜬다면?</Button>
+            <Button onClick={() => goToPage('/ticket')}>처음부터 다시할래!</Button>
           </ButtonContainer>
         </ContentContainer>
       </PageContainer>
