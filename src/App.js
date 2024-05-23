@@ -22,7 +22,7 @@ const GlobalStyles = createGlobalStyle`
   }
 
   body {
-    background-color: #d9d9d9;
+    background-color: #000000;
     font-size: 10px; /* 폰트 크기 조정 */
   }
 
