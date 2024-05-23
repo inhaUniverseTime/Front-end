@@ -43,47 +43,47 @@ const ContentContainer = styled.div`
 `;
 
 const CircleButton = styled(Link)`
-    position: absolute;
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    background-image: url('/image/circlearrow.png');
-    background-size: cover;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    bottom: 3vh;
-    right: 38vw;
-    
-    @media (max-width: 768px) {
-        bottom: 2vh;
-        right: 30vw;
-    }
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-image: url('/image/circlearrow.png');
+  background-size: cover;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  bottom: 3vh;
+  right: 38vw;
+  
+  @media (max-width: 768px) {
+      bottom: 2vh;
+      right: 30vw;
+  }
 
-    @media (max-width: 480px) {
-        bottom: 1vh;
-        right: 10vw;
-    }
+  @media (max-width: 480px) {
+      bottom: 1vh;
+      right: 10vw;
+  }
 `;
 
 const OptionBox = styled.div`
   width: 14vw;
-  height: 30vh; /* 줄 간격 조정 */
-  min-width: 240px;
+  height: 35vh;
+  min-width: 250px;
   max-width: 310px;
-  min-height: 180px;
-  max-height: 270px;
-  background-color: #ffffff; /* 하얀색 배경 설정 */
+  min-height: 200px;
+  max-height: 300px;
+  background-color: #ffffff;
   background-size: cover;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
   align-items: center;
   position: absolute;
-  top: 55%;
+  top: 56%;
   left: 50%;
   transform: translate(-50%, -50%);
-  padding: 10px;
+  padding: 20px;
 `;
 
 const OptionItem = styled.div`
@@ -91,38 +91,68 @@ const OptionItem = styled.div`
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  margin-bottom: 5px; /* 줄 간격 더욱 좁힘 */
+  margin-bottom: 3px;
 `;
 
 const TextBox = styled.div`
-  font-size: 16px;
+  font-size: 13px;
   font-weight: bold;
-  color: #000; /* 검정색 */
+  color: #000;
 `;
 
-const Dropdown = styled.select`
-  padding: 0px;
+const TimeInput = styled.input`
+  padding: 5px;
   border-radius: 5px;
   border: none;
-  cursor: pointer;
   width: 150px;
-  color: #3CA2FF; /* 파란색 */
+  color: #3CA2FF;
   line-height: 1;
   background-color: transparent;
-  text-overflow: ellipsis;
-  overflow: hidden;
-  white-space: nowrap;
-  text-align: right; /* 오른쪽 정렬 */
-  font-size: 16px; /* 폰트 크기 */
+  text-align: center;
+  font-size: 16px;
   font-weight: bold;
+  outline: none;
+`;
+
+const SelectBox = styled.select`
+  padding: 5px;
+  border-radius: 5px;
+  border: 1px solid #fff;
+  width: 150px;
+  color: #3CA2FF;
+  line-height: 1;
+  background-color: transparent;
+  text-align: right; /* 오른쪽 정렬 */
+  font-size: 16px;
+  font-weight: bold;
+  outline: none;
 `;
 
 const Ticket = () => {
+  const getCurrentTime = () => {
+    const now = new Date();
+    const hours = now.getHours().toString().padStart(2, '0');
+    const minutes = now.getMinutes().toString().padStart(2, '0');
+    return `${hours}:${minutes}`;
+  };
+
+  const calculateEndTime = (startTime) => {
+    const [startHour, startMinute] = startTime.split(':').map(Number);
+    const endTime = new Date();
+    endTime.setHours(startHour);
+    endTime.setMinutes(startMinute);
+    endTime.setMinutes(endTime.getMinutes() + 90); // 1시간 30분 후
+    const hours = endTime.getHours().toString().padStart(2, '0');
+    const minutes = endTime.getMinutes().toString().padStart(2, '0');
+    return `${hours}:${minutes}`;
+  };
+
   const defaultOptions = {
     출발: ["5호관", "60주년 기념관", "비룡플라자", "9호관"],
     도착: ["9호관", "6호관", "5호관", "60주년 기념관"],
-    인원: ["1명", "2명", "3명", "4명"],
-    공강: ["1시간", "2시간", "3시간 이상"]
+    인원: ["1명", "2명", "3명", "4명 이상"],
+    공강_시작: getCurrentTime(),
+    공강_종료: calculateEndTime(getCurrentTime())
   };
 
   const [dropdownOptions, setDropdownOptions] = useState(defaultOptions);
@@ -130,7 +160,7 @@ const Ticket = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('/api/endpoint'); // 여기에 실제 API 엔드포인트를 입력하세요.
+        const response = await axios.get('/api/endpoint');
         setDropdownOptions(response.data);
       } catch (error) {
         console.error("Error fetching data, using default options", error);
@@ -146,14 +176,19 @@ const Ticket = () => {
       <PageContainer>
         <ContentContainer>
           <OptionBox>
-            {Object.entries(dropdownOptions).map(([key, values]) => (
+            {Object.entries(dropdownOptions).map(([key, value]) => (
               <OptionItem key={key}>
-                <TextBox>{key}</TextBox>
-                <Dropdown>
-                  {values.map((value) => (
-                    <option key={value} value={value}>{value}</option>
-                  ))}
-                </Dropdown>
+                <TextBox>{key.includes("_") ? key.replace("_", " ") : key}</TextBox>
+                {key.includes("시작") || key.includes("종료") ? (
+                  <TimeInput type="time" defaultValue={dropdownOptions[key]} />
+                ) : (
+                  <SelectBox>
+                    <option value="">입력</option>
+                    {value.map((option, index) => (
+                      <option key={index} value={option}>{option}</option>
+                    ))}
+                  </SelectBox>
+                )}
               </OptionItem>
             ))}
           </OptionBox>
