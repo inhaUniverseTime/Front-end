@@ -67,7 +67,7 @@ const CircleButton = styled(Link)`
 `;
 
 const OptionBox = styled.div`
-  width: 14vw;
+  width: 18vw;
   height: 30vh; /* 줄 간격 조정 */
   min-width: 235px;
   max-width: 300px;
@@ -98,7 +98,6 @@ const TextBox = styled.div`
   font-size: 13px;
   font-weight: bold;
   color: #000; /* 검정색 */
-  white-space: pre-line; /* 줄바꿈과 공백을 유지 */
 `;
 
 const Dropdown = styled.select`
@@ -116,11 +115,12 @@ const Dropdown = styled.select`
   text-align: right; /* 오른쪽 정렬 */
   font-size: 16px; /* 폰트 크기 */
   font-weight: bold;
+  margin-left: 120px; /* TextBox와 Dropdown 사이에 약간의 여백 추가 */
 `;
 
 const Time = () => {
     const defaultOptions = {
-      "밥 먹고 나니\n남은 시간": ["1시간", "2시간", "3시간 이상"]
+      "현재 시간": ["1시간", "2시간", "3시간 이상"]
     };
   
 
