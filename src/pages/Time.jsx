@@ -67,7 +67,7 @@ const CircleButton = styled(Link)`
 `;
 
 const OptionBox = styled.div`
-  width: 18vw;
+  width: 14vw;
   height: 30vh; /* 줄 간격 조정 */
   min-width: 235px;
   max-width: 300px;
@@ -98,9 +98,10 @@ const TextBox = styled.div`
   font-size: 13px;
   font-weight: bold;
   color: #000; /* 검정색 */
+  white-space: pre-line; /* 줄바꿈과 공백을 유지 */
 `;
 
-const Dropdown = styled.select`
+const TimeInput = styled.input`
   padding: 0px;
   border-radius: 5px;
   border: none;
@@ -115,14 +116,12 @@ const Dropdown = styled.select`
   text-align: right; /* 오른쪽 정렬 */
   font-size: 16px; /* 폰트 크기 */
   font-weight: bold;
-  margin-left: 120px; /* TextBox와 Dropdown 사이에 약간의 여백 추가 */
 `;
 
 const Time = () => {
-    const defaultOptions = {
-      "현재 시간": ["1시간", "2시간", "3시간 이상"]
-    };
-  
+  const defaultOptions = {
+    "현재 시각": [getCurrentTime()]
+  };
 
   const [dropdownOptions, setDropdownOptions] = useState(defaultOptions);
 
@@ -130,7 +129,18 @@ const Time = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get('/api/endpoint'); // 여기에 실제 API 엔드포인트를 입력하세요.
-        setDropdownOptions(response.data);
+        const options = response.data;
+        
+        // 시간 형식으로 변환
+        const formattedOptions = {};
+        for (const [key, values] of Object.entries(options)) {
+          formattedOptions[key] = values.map(value => {
+            const hours = value.match(/\d+/)[0].padStart(2, '0'); // 숫자를 추출하고 2자리로 만듦
+            return `${hours}:00`;
+          });
+        }
+        
+        setDropdownOptions(formattedOptions);
       } catch (error) {
         console.error("Error fetching data, using default options", error);
       }
@@ -138,6 +148,14 @@ const Time = () => {
 
     fetchData();
   }, []);
+
+  // 현재 시각 가져오기
+  function getCurrentTime() {
+    const now = new Date();
+    const hours = now.getHours().toString().padStart(2, '0');
+    const minutes = now.getMinutes().toString().padStart(2, '0');
+    return `${hours}:${minutes}`;
+  }
 
   return (
     <>
@@ -148,11 +166,12 @@ const Time = () => {
             {Object.entries(dropdownOptions).map(([key, values]) => (
               <OptionItem key={key}>
                 <TextBox>{key}</TextBox>
-                <Dropdown>
+                <TimeInput type="time" defaultValue={values[0]} list={`${key}-times`} />
+                <datalist id={`${key}-times`}>
                   {values.map((value) => (
                     <option key={value} value={value}>{value}</option>
                   ))}
-                </Dropdown>
+                </datalist>
               </OptionItem>
             ))}
           </OptionBox>
