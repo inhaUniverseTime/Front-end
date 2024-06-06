@@ -112,11 +112,7 @@ const Row = styled.div`
   gap: 7px; /* 사각형 간의 간격 */
 `;
 
-const TopRow = styled(Row)`
-  margin-bottom: 32px;
-`;
-
-const Select2 = () => {
+const Select3 = () => {
   const [selectedIdx, setSelectedIdx] = useState(null); // 선택된 사각형의 인덱스 상태 관리
 
   // 사각형 클릭 시 선택된 사각형의 인덱스를 저장하고 이전에 선택된 사각형을 비활성화
@@ -132,7 +128,7 @@ const Select2 = () => {
   // 선택된 값을 백엔드로 전송하는 함수
   const handleSubmit = async () => {
     if (selectedIdx !== null) {
-      const options = ["한식", "중식", "양식", "일식"]; // 선택 옵션 배열
+      const options = ["정문", "후문"]; // 선택 옵션 배열
       const selectedOption = options[selectedIdx]; // 선택된 옵션
 
       try {
@@ -151,29 +147,21 @@ const Select2 = () => {
       <GlobalStyles />
       <PageContainer>
         <ContentContainer>
-          <TopRow>
-            {/* 첫 번째 행 */}
-            <StyledSquareButton onClick={() => handleClick(0)} selected={selectedIdx === 0} style={{ top: '25px' }}>
-              <div>한식</div>
-            </StyledSquareButton>
-            <StyledSquareButton onClick={() => handleClick(1)} selected={selectedIdx === 1} style={{ top: '25px' }}>
-              <div>중식</div>
-            </StyledSquareButton>
-          </TopRow>
           <Row>
-            {/* 두 번째 행 */}
-            <StyledSquareButton onClick={() => handleClick(2)} selected={selectedIdx === 2}>
-              <div>양식</div>
+            {/* 첫 번째 박스 */}
+            <StyledSquareButton onClick={() => handleClick(0)} selected={selectedIdx === 0}>
+              <div>정문</div>
             </StyledSquareButton>
-            <StyledSquareButton onClick={() => handleClick(3)} selected={selectedIdx === 3}>
-              <div>일식</div>
+            {/* 두 번째 박스 */}
+            <StyledSquareButton onClick={() => handleClick(1)} selected={selectedIdx === 1}>
+              <div>후문</div>
             </StyledSquareButton>
           </Row>
-          <CircleButton to="/select3" onClick={handleSubmit} />
+          <CircleButton to="/ready" onClick={handleSubmit} />
         </ContentContainer>
       </PageContainer>
     </>
   );
 };
 
-export default Select2;
+export default Select3;
