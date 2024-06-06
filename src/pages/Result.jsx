@@ -183,7 +183,7 @@ const Result = () => {
             <>
               <ContentBox>
                 <h2>{contentData.title}</h2>
-                <img src={contentData.image} alt="Photo" style={{ width: "100%", height: "200px", objectFit: "cover", marginBottom: "20px" }} />
+                <img src={`data:image/jpeg;base64,${contentData.image}`} alt="Photo" style={{ width: "100%", height: "200px", objectFit: "cover", marginBottom: "20px" }} />
                 <p className="description-text">{contentData.description}</p>
               </ContentBox>
               <InfoContainer>
