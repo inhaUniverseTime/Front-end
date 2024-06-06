@@ -122,7 +122,7 @@ const SelectBox = styled.select`
   color: #3CA2FF;
   line-height: 1;
   background-color: transparent;
-  text-align: right; /* 오른쪽 정렬 */
+  text-align: right;
   font-size: 16px;
   font-weight: bold;
   outline: none;
@@ -161,7 +161,7 @@ const Ticket = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get('/api/endpoint');
-        setDropdownOptions(response.data);
+        setDropdownOptions(response.data.options); // API 응답 데이터에 options 키 추가
       } catch (error) {
         console.error("Error fetching data, using default options", error);
       }
