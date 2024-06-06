@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from 'react';
 import styled, { createGlobalStyle } from "styled-components";
 import { Link } from "react-router-dom";
@@ -161,9 +162,10 @@ const Ticket = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get('/api/endpoint');
-        setDropdownOptions(response.data.options); // API 응답 데이터에 options 키 추가
+        setDropdownOptions(response.data.options || defaultOptions); // API 응답 데이터에 options 키 추가
       } catch (error) {
         console.error("Error fetching data, using default options", error);
+        setDropdownOptions(defaultOptions);
       }
     };
 
@@ -176,7 +178,7 @@ const Ticket = () => {
       <PageContainer>
         <ContentContainer>
           <OptionBox>
-            {Object.entries(dropdownOptions).map(([key, value]) => (
+            {Object.entries(dropdownOptions || {}).map(([key, value]) => (
               <OptionItem key={key}>
                 <TextBox>{key.includes("_") ? key.replace("_", " ") : key}</TextBox>
                 {key.includes("시작") || key.includes("종료") ? (
