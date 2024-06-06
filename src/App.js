@@ -6,6 +6,7 @@ import Main from './pages/Main';
 import Main2 from './pages/Main2';
 import Select1 from './pages/Select1';
 import Select2 from './pages/Select2';
+import Select3 from './pages/Select3';
 import Ticket from './pages/Ticket';
 import Rocket from './pages/Rocket';
 import Ready from './pages/Ready';
@@ -38,6 +39,7 @@ const App = () => {
         <Route path='/Ticket' element={<Ticket />} />
         <Route path='/select1' element={<Select1 />} />
         <Route path='/select2' element={<Select2 />} />
+        <Route path='/select3' element={<Select3 />} />
         <Route path='/rocket' element={<Rocket />} />
         <Route path='/ready' element={<Ready />} />
         <Route path='/time' element={<Time />} />
