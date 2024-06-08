@@ -1,6 +1,6 @@
-import React from 'react';
+import React from "react";
 import styled, { createGlobalStyle } from "styled-components";
-import { Link } from "react-router-dom"
+import { Link } from "react-router-dom";
 
 const GlobalStyles = createGlobalStyle`
   * {
@@ -29,8 +29,8 @@ const ContentContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 0 auto; 
-  background-image: url('/image/main2.png');
+  margin: 0 auto;
+  background-image: url("/image/main2.png");
   background-size: contain;
   background-position: center;
   background-repeat: no-repeat;
@@ -39,28 +39,27 @@ const ContentContainer = styled.div`
 `;
 
 const CircleButton = styled(Link)`
-    position: absolute;
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    background-image: url('/image/circlearrow.png');
-    background-size: cover;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    bottom: 3vh; // 하단에서 10px 떨어진 곳에 위치
-    right: 38vw;
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-image: url("/image/circlearrow.png");
+  background-size: cover;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  bottom: 3vh; // 하단에서 10px 떨어진 곳에 위치
+  right: 38vw;
 
-    
-    @media (max-width: 768px) {
-        bottom: 2vh;
-        right: 30vw;
-    }
+  @media (max-width: 768px) {
+    bottom: 2vh;
+    right: 30vw;
+  }
 
-    @media (max-width: 480px) {
-        bottom: 1vh;
-        right: 10vw;
-    }
+  @media (max-width: 480px) {
+    bottom: 1vh;
+    right: 10vw;
+  }
 `;
 
 const Main2 = () => {
@@ -69,7 +68,7 @@ const Main2 = () => {
       <GlobalStyles />
       <PageContainer>
         <ContentContainer>
-            <CircleButton to = "/ticket"></CircleButton>
+          <CircleButton to="/ticket"></CircleButton>
         </ContentContainer>
       </PageContainer>
     </>

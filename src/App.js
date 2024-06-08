@@ -5,38 +5,34 @@ import NotFound from "./pages/NotFound";
 import Main from "./pages/Main";
 import Main2 from "./pages/Main2";
 import SelectPage from "./pages/SelectPage";
-
 import Ticket from "./pages/Ticket";
 import Rocket from "./pages/Rocket";
 import Ready from "./pages/Ready";
 import Time from "./pages/Time";
 import Result from "./pages/Result";
 
-// 글로벌 스타일 정의
 const GlobalStyles = createGlobalStyle`
   * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Pretendard', sans-serif; /* pretendard 폰트 적용 */
+    font-family: 'Pretendard', sans-serif;
   }
 
   body {
     background-color: #000000;
-    font-size: 10px; /* 폰트 크기 조정 */
+    font-size: 10px; 
   }
-
-  /* 다른 요소들의 글로벌한 스타일도 여기에 추가할 수 있습니다. */
 `;
 
 const App = () => {
   return (
     <BrowserRouter>
-      <GlobalStyles /> {/* 글로벌 스타일 적용 */}
+      <GlobalStyles />
       <Routes>
         <Route path="/" element={<Main />} />
         <Route path="/main2" element={<Main2 />} />
-        <Route path="/ticket" element={<Ticket />} /> {/* 소문자로 변경 */}
+        <Route path="/ticket" element={<Ticket />} />
         <Route path="/select" element={<SelectPage />} />
         <Route path="/result" element={<Result />} />
         <Route path="/rocket" element={<Rocket />} />

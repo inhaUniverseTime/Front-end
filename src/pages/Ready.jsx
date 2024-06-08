@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react';
+import React, { useEffect } from "react";
 import styled, { createGlobalStyle } from "styled-components";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 
 const GlobalStyles = createGlobalStyle`
   * {
@@ -20,7 +20,7 @@ const PageContainer = styled.div`
   justify-content: center;
   align-items: center;
   background-color: white;
-  height: 100vh; /* 화면 전체 높이로 설정  */
+  height: 100vh;
 `;
 
 const ContentContainer = styled.div`
@@ -29,8 +29,8 @@ const ContentContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 0 auto; /* 가운데 정렬을 위해 auto로 설정  */
-  background-image: url('/image/ready.png');
+  margin: 0 auto;
+  background-image: url("/image/ready.png");
   background-size: contain;
   background-position: center;
   background-repeat: no-repeat;
@@ -44,10 +44,9 @@ const Ready = () => {
   // 3초 뒤에 페이지 이동 함수
   useEffect(() => {
     const timer = setTimeout(() => {
-      navigate('/rocket');
-    }, 1000); 
+      navigate("/rocket");
+    }, 1000);
 
-    // 컴포넌트가 언마운트될 때 타이머를 정리
     return () => clearTimeout(timer);
   }, [navigate]);
 
@@ -55,8 +54,7 @@ const Ready = () => {
     <>
       <GlobalStyles />
       <PageContainer>
-        <ContentContainer>
-        </ContentContainer>
+        <ContentContainer></ContentContainer>
       </PageContainer>
     </>
   );

@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react';
+import React, { useEffect } from "react";
 import styled, { createGlobalStyle } from "styled-components";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 
 const GlobalStyles = createGlobalStyle`
   * {
@@ -30,7 +30,7 @@ const ContentContainer = styled.div`
   align-items: center;
   justify-content: center;
   margin: 0 auto;
-  background-image: url('/image/rocket.png'); /* 이 경로를 수정하세요 */
+  background-image: url("/image/rocket.png");
   background-size: contain;
   background-position: center;
   background-repeat: no-repeat;
@@ -40,13 +40,11 @@ const ContentContainer = styled.div`
 const Rocket = () => {
   const navigate = useNavigate();
 
-  // 3초 뒤에 페이지 이동 함수
   useEffect(() => {
     const timer = setTimeout(() => {
-      navigate('/result');
-    }, 1000); 
+      navigate("/result");
+    }, 1000);
 
-    // 컴포넌트가 언마운트될 때 타이머를 정리
     return () => clearTimeout(timer);
   }, [navigate]);
 
@@ -54,8 +52,7 @@ const Rocket = () => {
     <>
       <GlobalStyles />
       <PageContainer>
-        <ContentContainer>
-        </ContentContainer>
+        <ContentContainer></ContentContainer>
       </PageContainer>
     </>
   );
