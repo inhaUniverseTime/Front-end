@@ -1,17 +1,16 @@
-import React from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { createGlobalStyle } from 'styled-components';
-import NotFound from './pages/NotFound';
-import Main from './pages/Main';
-import Main2 from './pages/Main2';
-import Select1 from './pages/Select1';
-import Select2 from './pages/Select2';
-import Select3 from './pages/Select3';
-import Ticket from './pages/Ticket';
-import Rocket from './pages/Rocket';
-import Ready from './pages/Ready';
-import Time from './pages/Time';
-import Result from './pages/Result';
+import React from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { createGlobalStyle } from "styled-components";
+import NotFound from "./pages/NotFound";
+import Main from "./pages/Main";
+import Main2 from "./pages/Main2";
+import SelectPage from "./pages/SelectPage";
+
+import Ticket from "./pages/Ticket";
+import Rocket from "./pages/Rocket";
+import Ready from "./pages/Ready";
+import Time from "./pages/Time";
+import Result from "./pages/Result";
 
 // 글로벌 스타일 정의
 const GlobalStyles = createGlobalStyle`
@@ -33,20 +32,18 @@ const GlobalStyles = createGlobalStyle`
 const App = () => {
   return (
     <BrowserRouter>
-      <Routes>
-        <Route path='/' element={<Main />} />
-        <Route path='/main2' element={<Main2 />} />
-        <Route path='/Ticket' element={<Ticket />} />
-        <Route path='/select1' element={<Select1 />} />
-        <Route path='/select2' element={<Select2 />} />
-        <Route path='/select3' element={<Select3 />} />
-        <Route path='/rocket' element={<Rocket />} />
-        <Route path='/ready' element={<Ready />} />
-        <Route path='/time' element={<Time />} />
-        <Route path='/result' element={<Result />} />
-        <Route path='*' element={<NotFound />} />
-      </Routes>
       <GlobalStyles /> {/* 글로벌 스타일 적용 */}
+      <Routes>
+        <Route path="/" element={<Main />} />
+        <Route path="/main2" element={<Main2 />} />
+        <Route path="/ticket" element={<Ticket />} /> {/* 소문자로 변경 */}
+        <Route path="/select" element={<SelectPage />} />
+        <Route path="/result" element={<Result />} />
+        <Route path="/rocket" element={<Rocket />} />
+        <Route path="/ready" element={<Ready />} />
+        <Route path="/time" element={<Time />} />
+        <Route path="*" element={<NotFound />} />
+      </Routes>
     </BrowserRouter>
   );
 };

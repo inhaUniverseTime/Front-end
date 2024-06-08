@@ -1,8 +1,7 @@
-
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 import styled, { createGlobalStyle } from "styled-components";
 import { Link } from "react-router-dom";
-import axios from 'axios';
+import axios from "axios";
 
 const GlobalStyles = createGlobalStyle`
   @import url('https://fonts.googleapis.com/css2?family=Pretendard:wght@400;700&display=swap');
@@ -35,7 +34,7 @@ const ContentContainer = styled.div`
   align-items: center;
   justify-content: center;
   margin: 0 auto;
-  background-image: url('/image/ticketback.png');
+  background-image: url("/image/ticketback.png");
   background-size: contain;
   background-position: center;
   background-repeat: no-repeat;
@@ -48,22 +47,22 @@ const CircleButton = styled(Link)`
   width: 30px;
   height: 30px;
   border-radius: 50%;
-  background-image: url('/image/circlearrow.png');
+  background-image: url("/image/circlearrow.png");
   background-size: cover;
   display: flex;
   align-items: center;
   justify-content: center;
   bottom: 3vh;
   right: 38vw;
-  
+
   @media (max-width: 768px) {
-      bottom: 2vh;
-      right: 30vw;
+    bottom: 2vh;
+    right: 30vw;
   }
 
   @media (max-width: 480px) {
-      bottom: 1vh;
-      right: 10vw;
+    bottom: 1vh;
+    right: 10vw;
   }
 `;
 
@@ -106,7 +105,7 @@ const TimeInput = styled.input`
   border-radius: 5px;
   border: none;
   width: 150px;
-  color: #3CA2FF;
+  color: #3ca2ff;
   line-height: 1;
   background-color: transparent;
   text-align: center;
@@ -120,7 +119,7 @@ const SelectBox = styled.select`
   border-radius: 5px;
   border: 1px solid #fff;
   width: 150px;
-  color: #3CA2FF;
+  color: #3ca2ff;
   line-height: 1;
   background-color: transparent;
   text-align: right;
@@ -132,28 +131,54 @@ const SelectBox = styled.select`
 const Ticket = () => {
   const getCurrentTime = () => {
     const now = new Date();
-    const hours = now.getHours().toString().padStart(2, '0');
-    const minutes = now.getMinutes().toString().padStart(2, '0');
+    const hours = now.getHours().toString().padStart(2, "0");
+    const minutes = now.getMinutes().toString().padStart(2, "0");
     return `${hours}:${minutes}`;
   };
 
   const calculateEndTime = (startTime) => {
-    const [startHour, startMinute] = startTime.split(':').map(Number);
+    const [startHour, startMinute] = startTime.split(":").map(Number);
     const endTime = new Date();
     endTime.setHours(startHour);
     endTime.setMinutes(startMinute);
     endTime.setMinutes(endTime.getMinutes() + 90); // 1시간 30분 후
-    const hours = endTime.getHours().toString().padStart(2, '0');
-    const minutes = endTime.getMinutes().toString().padStart(2, '0');
+    const hours = endTime.getHours().toString().padStart(2, "0");
+    const minutes = endTime.getMinutes().toString().padStart(2, "0");
     return `${hours}:${minutes}`;
   };
 
   const defaultOptions = {
-    출발: ["5호관", "60주년 기념관", "비룡플라자", "9호관"],
-    도착: ["9호관", "6호관", "5호관", "60주년 기념관"],
+    출발: [
+      "1호관",
+      "2호관",
+      "4호관",
+      "5호관",
+      "6호관",
+      "7호관",
+      "9호관",
+      "서호관",
+      "하이테크센터",
+      "운동장",
+      "60주년 기념관",
+      "비룡플라자",
+    ],
+    도착: [
+      "1호관",
+      "2호관",
+      "4호관",
+      "5호관",
+      "6호관",
+      "7호관",
+      "9호관",
+      "서호관",
+      "하이테크센터",
+      "운동장",
+      "60주년 기념관",
+      "비룡플라자",
+    ],
     인원: ["1명", "2명", "3명", "4명 이상"],
     공강_시작: getCurrentTime(),
-    공강_종료: calculateEndTime(getCurrentTime())
+    공강_종료: calculateEndTime(getCurrentTime()),
   };
 
   const [dropdownOptions, setDropdownOptions] = useState(defaultOptions);
@@ -161,7 +186,7 @@ const Ticket = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('/api/endpoint');
+        const response = await axios.get("/api/endpoint");
         setDropdownOptions(response.data.options || defaultOptions); // API 응답 데이터에 options 키 추가
       } catch (error) {
         console.error("Error fetching data, using default options", error);
@@ -180,21 +205,25 @@ const Ticket = () => {
           <OptionBox>
             {Object.entries(dropdownOptions || {}).map(([key, value]) => (
               <OptionItem key={key}>
-                <TextBox>{key.includes("_") ? key.replace("_", " ") : key}</TextBox>
+                <TextBox>
+                  {key.includes("_") ? key.replace("_", " ") : key}
+                </TextBox>
                 {key.includes("시작") || key.includes("종료") ? (
                   <TimeInput type="time" defaultValue={dropdownOptions[key]} />
                 ) : (
                   <SelectBox>
                     <option value="">입력</option>
                     {value.map((option, index) => (
-                      <option key={index} value={option}>{option}</option>
+                      <option key={index} value={option}>
+                        {option}
+                      </option>
                     ))}
                   </SelectBox>
                 )}
               </OptionItem>
             ))}
           </OptionBox>
-          <CircleButton to="/select1"></CircleButton>
+          <CircleButton to="/select"></CircleButton>
         </ContentContainer>
       </PageContainer>
     </>
