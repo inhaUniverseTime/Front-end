@@ -20,7 +20,7 @@ const PageContainer = styled.div`
   justify-content: center;
   align-items: center;
   background-color: white;
-  height: 100vh; /* 화면 전체 높이로 설정  */
+  height: 100vh;
 `;
 
 const ContentContainer = styled.div`
@@ -29,7 +29,7 @@ const ContentContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 0 auto; /* 가운데 정렬을 위해 auto로 설정  */
+  margin: 0 auto;
   background-image: url('/image/main.png');
   background-size: contain;
   background-position: center;

@@ -1,7 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 import styled, { createGlobalStyle } from "styled-components";
-import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import { useLocation, useNavigate } from "react-router-dom";
+import axios from "axios";
+
+import { dummyData } from "../dummyData/dummyData";
 
 const GlobalStyles = createGlobalStyle`
   * {
@@ -33,7 +35,7 @@ const ContentContainer = styled.div`
   align-items: center;
   justify-content: center;
   margin: 0 auto;
-  background-image: url('/image/resultBack.png');
+  background-image: url("/image/resultBack.png");
   background-size: contain;
   background-position: center;
   background-repeat: no-repeat;
@@ -59,8 +61,8 @@ const ContentBox = styled.div`
     font-weight: bold;
   }
   p {
-    color: #3CA2FF;
-    font-size: 26px; /* Increase font size more */
+    color: #3ca2ff;
+    font-size: 26px;
     font-weight: bold;
     white-space: pre-wrap;
     word-wrap: break-word;
@@ -77,26 +79,26 @@ const InfoContainer = styled.div`
   flex-direction: column;
   align-items: flex-start;
   justify-content: center;
-  width: 260px; /* Increase width to accommodate margin */
+  width: 260px;
   margin-top: 10px;
-  margin-left: 20px; /* Add margin to push content to the right */
+  margin-left: 20px;
 `;
 
 const InfoTextComponent = styled.div`
   display: flex;
-  flex-direction: row; 
-  align-items: flex-start; 
-  justify-content: flex-start; 
-  margin-bottom: 2px; /* 간격을 줄이기 위해 margin-bottom 조정 */
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+  margin-bottom: 2px;
   padding: 10px;
 `;
 
 const InfoLabel = styled.span`
   font-size: 14px;
-  color: #FFEE59;
+  color: #ffee59;
   margin-right: 5px;
-  display: flex; 
-  align-items: flex-start; 
+  display: flex;
+  align-items: flex-start;
   font-weight: bold;
 `;
 
@@ -137,76 +139,149 @@ const Button = styled.button`
 `;
 
 const Result = () => {
-  const navigate = useNavigate();
-  const [contentData, setContentData] = useState(null);
-  const [activityDescription, setActivityDescription] = useState("");
-  const [hour, setHour] = useState(null);
-  const [minute, setMinute] = useState(null);
+  const [title, setTitle] = useState("");
+  const [image, setImage] = useState("");
+  const [description, setDescription] = useState("");
+  const [location, setLocation] = useState("");
+
+  // const [data, setData] = useState({
+  //   id: 0,
+  //   title: "",
+  //   image: "",
+  //   description: "",
+  //   location: "",
+  // });
+
+  const mode = localStorage.getItem("mode");
+  const typeOfFood = localStorage.getItem("typeOfFood");
+  const locationValue = localStorage.getItem("location");
 
   useEffect(() => {
-    axios.get('/api/content')
-      .then(response => {
-        setContentData(response.data);
-        setActivityDescription(response.data.activityDescription);
-        // Splitting time into hour and minute
-        const [hour, minute] = response.data.time.split(':');
-        setHour(hour);
-        setMinute(minute);
-      })
-      .catch(error => {
-        const defaultData = {
-          title: "우주공강타임",
-          image: "/image/test.jpg",
-          description: "동대문 엽기떡볶이",
-          location: "인하대학교 후문",
-          time: "01:15",
-        };
-        setContentData(defaultData);
-        setActivityDescription(defaultData.activityDescription);
-        // Splitting time into hour and minute
-        const [hour, minute] = defaultData.time.split(':');
-        setHour(hour);
-        setMinute(minute);
-      });
-  }, []);
+    const handleData = () => {
+      if (mode === 1 && typeOfFood === "한식" && locationValue === "후문") {
+        setTitle(dummyData[0].title);
+        setImage(dummyData[0].image);
+        setDescription(dummyData[0].description);
+        setLocation(dummyData[0].location);
+      }
+      console.log(title);
+    };
+    handleData();
+    console.log(title);
+  });
 
-  const goToPage = (path) => {
-    navigate(path);
-  };
+  // const navigate = useNavigate();
+  // const location = useLocation();
+  // const [contentData, setContentData] = useState(null);
+  // const [activityDescription, setActivityDescription] = useState("");
+  // const [hour, setHour] = useState(null);
+  // const [minute, setMinute] = useState(null);
+
+  // const handleData = async () => {
+  //   const mode = localStorage.getItem("mode");
+  //   console.log(mode);
+
+  //   const typeOfFood = localStorage.getItem("typeOfFood");
+
+  //   console.log(typeOfFood);
+  //   const location = localStorage.getItem("location");
+
+  //   console.log(location);
+
+  //   axios
+  //     .get(`https://universetime.fly.dev/search`, {
+  //       params: {
+  //         mode: mode,
+  //         typeOfFood: typeOfFood,
+  //         location: location,
+  //       },
+  //     })
+  //     .then((response) => {
+  //       setContentData(response.data);
+  //       setActivityDescription(response.data.activityDescription);
+  //       const [hour, minute] = response.data.time.split(":");
+  //       setHour(hour);
+  //       setMinute(minute);
+  //     })
+  //     .catch((error) => {
+  //       console.error("Error fetching data:", error);
+  //       const defaultData = {
+  //         title: "우주공강타임",
+  //         image: "/image/test.jpg",
+  //         description: "동대문 엽기떡볶이",
+  //         location: "인하대학교 후문",
+  //         time: "01:15",
+  //       };
+  //       setContentData(defaultData);
+  //       setActivityDescription(defaultData.activityDescription);
+  //       const [hour, minute] = defaultData.time.split(":");
+  //       setHour(hour);
+  //       setMinute(minute);
+  //     });
+  // };
+
+  // useEffect(() => {
+  //   handleData();
+  // }, [location.search]);
+
+  // const goToPage = (path) => {
+  //   navigate(path);
+  // };
 
   return (
     <>
       <GlobalStyles />
       <PageContainer>
         <ContentContainer>
-          {contentData ? (
-            <>
-              <ContentBox>
-                <h2>{contentData.title}</h2>
-                <img src={`data:image/jpeg;base64,${contentData.image}`} alt="Photo" style={{ width: "100%", height: "200px", objectFit: "cover", marginBottom: "20px" }} />
-                <p className="description-text">{contentData.description}</p>
-              </ContentBox>
-              <InfoContainer>
-                <InfoTextComponent>
-                  <InfoLabel>위치:</InfoLabel>
-                  <InfoValue><span className="bold-text">{contentData.location}</span></InfoValue>
-                </InfoTextComponent>
-                <InfoTextComponent>
+          <>
+            <ContentBox>
+              <h2>{title}</h2>
+              <img
+                src={image}
+                alt="Photo"
+                style={{
+                  width: "100%",
+                  height: "200px",
+                  objectFit: "cover",
+                  marginBottom: "20px",
+                }}
+              />
+              <p className="description-text">{description}</p>
+            </ContentBox>
+            <InfoContainer>
+              <InfoTextComponent>
+                <InfoLabel>위치:</InfoLabel>
+                <InfoValue>
+                  <span className="bold-text">{location}</span>
+                </InfoValue>
+              </InfoTextComponent>
+              {/* <InfoTextComponent>
                   <InfoLabel>시간:</InfoLabel>
                   <InfoValue>
-                    {activityDescription && <span>{activityDescription}<br /></span>}
-                    <span className="bold-text"> 강의실 {hour}시 {minute}분에 이동!<br /></span>
+                    {activityDescription && (
+                      <span>
+                        {activityDescription}
+                        <br />
+                      </span>
+                    )}
+                    <span className="bold-text">
+                      {" "}
+                      강의실 {hour}시 {minute}분에 이동!
+                      <br />
+                    </span>
                   </InfoValue>
-                </InfoTextComponent>
-              </InfoContainer>
-            </>
-          ) : (
-            <p>데이터를 불러오는 중입니다...</p>
-          )}
-          <ButtonContainer>
-            <Button onClick={() => goToPage('/time')}>그래도 시간이 붕뜬다면?</Button>
-            <Button onClick={() => goToPage('/ticket')}>처음부터 다시할래!</Button>
-          </ButtonContainer>
+                </InfoTextComponent> */}
+            </InfoContainer>
+          </>
+
+          {/* <ButtonContainer>
+            <Button onClick={() => goToPage("/time")}>
+              그래도 시간이 붕뜬다면?
+            </Button>
+            <Button onClick={() => goToPage("/ticket")}>
+              처음부터 다시할래!
+            </Button>
+          </ButtonContainer> */}
         </ContentContainer>
       </PageContainer>
     </>
