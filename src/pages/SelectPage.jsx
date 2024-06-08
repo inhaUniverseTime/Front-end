@@ -40,22 +40,8 @@ const SelectPage = () => {
   };
 
   const handleSubmit = () => {
-    navigate(`/result`);
+    navigate(`/ready`);
   };
-
-  //   const handleSubmit = async () => {
-  //     try {
-  //       const response = await axios.post(
-  //         "https://universetime.fly.dev/api/endpoint",
-  //         { mode: mode, type_of_food: typeOfFood, location: location }
-  //       );
-  //       console.log("Data sent successfully:", response.data);
-
-  //       navigate(`/result?mode=${mode}`);
-  //     } catch (error) {
-  //       console.error("Error sending data:", error);
-  //     }
-  //   };
 
   return (
     <div>

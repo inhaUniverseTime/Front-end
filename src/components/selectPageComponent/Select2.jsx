@@ -122,28 +122,28 @@ const Select2 = ({ typeOfFood, handleFood, handleNextStep }) => {
         <ContentContainer>
           <TopRow>
             <StyledSquareButton
-              onClick={() => handleFood("한식")}
-              selected={typeOfFood === "한식"}
+              onClick={() => handleFood("korean")}
+              selected={typeOfFood === "korean"}
             >
               <div>한식</div>
             </StyledSquareButton>
             <StyledSquareButton
-              onClick={() => handleFood("중식")}
-              selected={typeOfFood === "중식"}
+              onClick={() => handleFood("chinese")}
+              selected={typeOfFood === "chinese"}
             >
               <div>중식</div>
             </StyledSquareButton>
           </TopRow>
           <Row>
             <StyledSquareButton
-              onClick={() => handleFood("양식")}
-              selected={typeOfFood === "일식"}
+              onClick={() => handleFood("western")}
+              selected={typeOfFood === "western"}
             >
               <div>양식</div>
             </StyledSquareButton>
             <StyledSquareButton
-              onClick={() => handleFood("일식")}
-              selected={typeOfFood === "일식"}
+              onClick={() => handleFood("japanese")}
+              selected={typeOfFood === "japanese"}
             >
               <div>일식</div>
             </StyledSquareButton>

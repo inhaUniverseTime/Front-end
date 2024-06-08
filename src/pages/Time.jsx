@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 import styled, { createGlobalStyle } from "styled-components";
 import { Link } from "react-router-dom";
-import axios from 'axios';
+import axios from "axios";
 
 const GlobalStyles = createGlobalStyle`
   @import url('https://fonts.googleapis.com/css2?family=Pretendard:wght@400;700&display=swap');
@@ -34,7 +34,7 @@ const ContentContainer = styled.div`
   align-items: center;
   justify-content: center;
   margin: 0 auto;
-  background-image: url('/image/timeBack.png');
+  background-image: url("/image/timeBack.png");
   background-size: contain;
   background-position: center;
   background-repeat: no-repeat;
@@ -43,37 +43,37 @@ const ContentContainer = styled.div`
 `;
 
 const CircleButton = styled(Link)`
-    position: absolute;
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    background-image: url('/image/circlearrow.png');
-    background-size: cover;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    bottom: 3vh;
-    right: 38vw;
-    
-    @media (max-width: 768px) {
-        bottom: 2vh;
-        right: 30vw;
-    }
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-image: url("/image/circlearrow.png");
+  background-size: cover;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  bottom: 3vh;
+  right: 38vw;
 
-    @media (max-width: 480px) {
-        bottom: 1vh;
-        right: 10vw;
-    }
+  @media (max-width: 768px) {
+    bottom: 2vh;
+    right: 30vw;
+  }
+
+  @media (max-width: 480px) {
+    bottom: 1vh;
+    right: 10vw;
+  }
 `;
 
 const OptionBox = styled.div`
   width: 14vw;
-  height: 30vh; /* 줄 간격 조정 */
+  height: 30vh;
   min-width: 235px;
   max-width: 300px;
   min-height: 60px;
   max-height: 82px;
-  background-color: #ffffff; /* 하얀색 배경 설정 */
+  background-color: #ffffff;
   background-size: cover;
   display: flex;
   flex-direction: column;
@@ -91,14 +91,14 @@ const OptionItem = styled.div`
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  margin-bottom: 5px; /* 줄 간격 더욱 좁힘 */
+  margin-bottom: 5px;
 `;
 
 const TextBox = styled.div`
   font-size: 13px;
   font-weight: bold;
-  color: #000; /* 검정색 */
-  white-space: pre-line; /* 줄바꿈과 공백을 유지 */
+  color: #000;
+  white-space: pre-line;
 `;
 
 const TimeInput = styled.input`
@@ -107,20 +107,20 @@ const TimeInput = styled.input`
   border: none;
   cursor: pointer;
   width: 150px;
-  color: #3CA2FF; /* 파란색 */
+  color: #3ca2ff;
   line-height: 1;
   background-color: transparent;
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
-  text-align: right; /* 오른쪽 정렬 */
-  font-size: 16px; /* 폰트 크기 */
+  text-align: right;
+  font-size: 16px;
   font-weight: bold;
 `;
 
 const Time = () => {
   const defaultOptions = {
-    "현재 시각": [getCurrentTime()]
+    "현재 시각": [getCurrentTime()],
   };
 
   const [dropdownOptions, setDropdownOptions] = useState(defaultOptions);
@@ -128,18 +128,18 @@ const Time = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('/api/endpoint'); // 여기에 실제 API 엔드포인트를 입력하세요.
+        const response = await axios.get("/api/endpoint");
         const options = response.data;
-        
+
         // 시간 형식으로 변환
         const formattedOptions = {};
         for (const [key, values] of Object.entries(options)) {
-          formattedOptions[key] = values.map(value => {
-            const hours = value.match(/\d+/)[0].padStart(2, '0'); // 숫자를 추출하고 2자리로 만듦
+          formattedOptions[key] = values.map((value) => {
+            const hours = value.match(/\d+/)[0].padStart(2, "0"); // 숫자를 추출하고 2자리로 만듦
             return `${hours}:00`;
           });
         }
-        
+
         setDropdownOptions(formattedOptions);
       } catch (error) {
         console.error("Error fetching data, using default options", error);
@@ -152,8 +152,8 @@ const Time = () => {
   // 현재 시각 가져오기
   function getCurrentTime() {
     const now = new Date();
-    const hours = now.getHours().toString().padStart(2, '0');
-    const minutes = now.getMinutes().toString().padStart(2, '0');
+    const hours = now.getHours().toString().padStart(2, "0");
+    const minutes = now.getMinutes().toString().padStart(2, "0");
     return `${hours}:${minutes}`;
   }
 
@@ -166,10 +166,16 @@ const Time = () => {
             {Object.entries(dropdownOptions).map(([key, values]) => (
               <OptionItem key={key}>
                 <TextBox>{key}</TextBox>
-                <TimeInput type="time" defaultValue={values[0]} list={`${key}-times`} />
+                <TimeInput
+                  type="time"
+                  defaultValue={values[0]}
+                  list={`${key}-times`}
+                />
                 <datalist id={`${key}-times`}>
                   {values.map((value) => (
-                    <option key={value} value={value}>{value}</option>
+                    <option key={value} value={value}>
+                      {value}
+                    </option>
                   ))}
                 </datalist>
               </OptionItem>

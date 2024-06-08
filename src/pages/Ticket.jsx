@@ -187,7 +187,7 @@ const Ticket = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get("/api/endpoint");
-        setDropdownOptions(response.data.options || defaultOptions); // API 응답 데이터에 options 키 추가
+        setDropdownOptions(response.data.options || defaultOptions);
       } catch (error) {
         console.error("Error fetching data, using default options", error);
         setDropdownOptions(defaultOptions);

@@ -20,7 +20,7 @@ const PageContainer = styled.div`
   justify-content: center;
   align-items: center;
   background-color: white;
-  height: 100vh; /* 화면 전체 높이로 설정  */
+  height: 100vh;
 `;
 
 const ContentContainer = styled.div`
@@ -30,7 +30,7 @@ const ContentContainer = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  margin: 0 auto; /* 가운데 정렬을 위해 auto로 설정  */
+  margin: 0 auto;
   background-image: url("/image/choice.png");
   background-size: contain;
   background-position: center;
@@ -47,21 +47,20 @@ const StyledSquareButton = styled.div`
   border: ${({ selected }) => (selected ? "2px solid #FFFFFF" : "none")};
   cursor: pointer;
   position: relative;
-  text-align: center; /* 텍스트를 가로로 가운데 정렬 */
+  text-align: center;
 
   > div {
     font-size: 28px;
-    font-weight: 600; /* 세미 볼드(미디엄) */
+    font-weight: 600;
     color: white;
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    display: inline-block; /* 추가 */
-    white-space: nowrap; /* 텍스트가 너비를 벗어나더라도 줄 바꿈 방지 */
+    display: inline-block;
+    white-space: nowrap;
   }
 
-  /* 반응형 유지 - 부모 요소의 크기에 맞춰 배치 조정 */
   @media (max-width: 1200px) {
     width: 110px;
     height: 110px;
@@ -92,7 +91,7 @@ const CircleButton = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  bottom: 3vh; // 하단에서 10px 떨어진 곳에 위치
+  bottom: 3vh;
   right: 38vw;
 
   @media (max-width: 768px) {
@@ -108,7 +107,7 @@ const CircleButton = styled.div`
 
 const Row = styled.div`
   display: flex;
-  gap: 7px; /* 사각형 간의 간격 */
+  gap: 7px;
 `;
 
 const Select3 = ({ location, handleLoc, handleSubmit }) => {
@@ -119,14 +118,14 @@ const Select3 = ({ location, handleLoc, handleSubmit }) => {
         <ContentContainer>
           <Row>
             <StyledSquareButton
-              onClick={() => handleLoc("정문")}
-              selected={location === "정문"}
+              onClick={() => handleLoc("front")}
+              selected={location === "front"}
             >
               <div>정문</div>
             </StyledSquareButton>
             <StyledSquareButton
-              onClick={() => handleLoc("후문")}
-              selected={location === "후문"}
+              onClick={() => handleLoc("back")}
+              selected={location === "back"}
             >
               <div>후문</div>
             </StyledSquareButton>
